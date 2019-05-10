@@ -4,6 +4,11 @@ class Budget {
     this.budget = Number(budget);
     this.budgetLeft = this.budget;
   }
+
+  // Substract from the budget
+  substractFromBudget(amount) {
+    return (this.budgetLeft -= amount);
+  }
 }
 
 // Everything related to HTML
@@ -48,6 +53,25 @@ class HTML {
 
     // Insert into the HTML
     expensesList.appendChild(li);
+  }
+
+  // Substract expense amount from budget
+  trackBudged(amount) {
+    const budgetLeftDollars = budget.substractFromBudget(amount);
+    budgetLeft.innerHTML = `${budgetLeftDollars}`;
+
+    // Check when 25% is spent
+
+    if (budget.budget / 4 > budgetLeftDollars) {
+      budgetLeft.parentElement.parentElement.classList.remove(
+        "alert-success",
+        "alert-warning"
+      );
+      budgetLeft.parentElement.parentElement.classList.add("alert-danger");
+    } else if (budget.budget / 2 > budgetLeftDollars) {
+      budgetLeft.parentElement.parentElement.classList.remove("alert-success");
+      budgetLeft.parentElement.parentElement.classList.add("alert-warning");
+    }
   }
 }
 
@@ -95,6 +119,8 @@ function eventListeners() {
     } else {
       // Add the Expenses into the list
       html.addExpenseToList(expenseName, amount);
+      html.trackBudged(amount);
+      html.printMessage("Added...", "alert-success");
     }
   });
 }
