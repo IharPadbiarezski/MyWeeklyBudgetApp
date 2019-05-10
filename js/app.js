@@ -14,6 +14,24 @@ class HTML {
     budgetTotal.innerHTML = `${amount}`;
     budgetLeft.innerHTML = `${amount}`;
   }
+
+  // Displays a message {correct or invalid}
+  printMessage(message, className) {
+    const messageWrapper = document.createElement("div");
+    messageWrapper.classList.add("text-center", "alert", className);
+    messageWrapper.appendChild(document.createTextNode(message));
+
+    // Insert into HTML
+    document
+      .querySelector(".primary")
+      .insertBefore(messageWrapper, addExpenseForm);
+
+    // Clear the error
+    setTimeout(function() {
+      document.querySelector(".primary .alert").remove();
+      //   addExpenseForm.reset();
+    }, 3000);
+  }
 }
 
 // Varibles
@@ -47,5 +65,18 @@ function eventListeners() {
   // When a new expense is added
   addExpenseForm.addEventListener("submit", function(e) {
     e.preventDefault();
+
+    // Read the input values
+    const expenseName = document.querySelector("#expense").value;
+    const amount = document.querySelector("#amount").value;
+
+    if (expenseName === "" || amount === "") {
+      html.printMessage(
+        "There was an error, all fields are mandatory!",
+        "alert-danger"
+      );
+    } else {
+      console.log("valid");
+    }
   });
 }
