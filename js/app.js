@@ -32,6 +32,23 @@ class HTML {
       //   addExpenseForm.reset();
     }, 3000);
   }
+  //Displaying the expenses from the form into the list
+  addExpenseToList(name, amount) {
+    const expensesList = document.querySelector("#expenses ul");
+
+    // Create a li
+    const li = document.createElement("li");
+    li.classList =
+      "list-group-item d-flex justify-content-between align-items-center";
+    // Create the template
+    li.innerHTML = `
+    ${name}
+    <span class="badge badge-primary badge-pill">$ ${amount}</span>
+    `;
+
+    // Insert into the HTML
+    expensesList.appendChild(li);
+  }
 }
 
 // Varibles
@@ -76,7 +93,8 @@ function eventListeners() {
         "alert-danger"
       );
     } else {
-      console.log("valid");
+      // Add the Expenses into the list
+      html.addExpenseToList(expenseName, amount);
     }
   });
 }
